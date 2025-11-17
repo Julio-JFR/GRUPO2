@@ -52,3 +52,22 @@ CREATE TABLE gold.Sales_Aggregated (
     Cantidad INT
 );
 GO
+
+
+INSERT INTO silver.Sales_Clean (Id, Product, Category, Price, SaleDate)
+SELECT 
+    Id,
+    Product,
+    Category,
+    TRY_CAST(Price AS DECIMAL(10, 2)),
+    TRY_CAST(SaleDate AS DATE)
+FROM bronze.Sales_Raw;
+
+
+INSERT INTO gold.Sales_Aggregated (Category, TotalVentas, Cantidad)
+SELECT 
+    Category,
+    SUM(Price) AS TotalVentas,
+    COUNT(*) AS Cantidad
+FROM silver.Sales_Clean
+GROUP BY Category;
