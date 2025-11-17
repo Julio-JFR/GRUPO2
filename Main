@@ -1,0 +1,54 @@
+---------------------------------------------------
+-- 1. Crear base de datos
+---------------------------------------------------
+CREATE DATABASE Lakehouse;
+GO
+
+USE Lakehouse;
+GO
+
+---------------------------------------------------
+-- 2. Crear esquemas para las tres capas
+---------------------------------------------------
+CREATE SCHEMA bronze;
+GO
+
+CREATE SCHEMA silver;
+GO
+
+CREATE SCHEMA gold;
+GO
+
+---------------------------------------------------
+-- 3. Crear tablas en la capa BRONZE (datos crudos)
+---------------------------------------------------
+CREATE TABLE bronze.Sales_Raw (
+    Id INT,
+    Product NVARCHAR(100),
+    Category NVARCHAR(100),
+    Price NVARCHAR(50),
+    SaleDate NVARCHAR(50)
+);
+GO
+
+---------------------------------------------------
+-- 4. Crear tablas en SILVER (datos limpios/estandarizados)
+---------------------------------------------------
+CREATE TABLE silver.Sales_Clean (
+    Id INT,
+    Product NVARCHAR(100),
+    Category NVARCHAR(100),
+    Price DECIMAL(10,2),
+    SaleDate DATE
+);
+GO
+
+---------------------------------------------------
+-- 5. Crear tablas en GOLD (datos curados para analítica)
+---------------------------------------------------
+CREATE TABLE gold.Sales_Aggregated (
+    Category NVARCHAR(100),
+    TotalVentas DECIMAL(18,2),
+    Cantidad INT
+);
+GO
